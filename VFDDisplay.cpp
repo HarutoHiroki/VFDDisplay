@@ -25,16 +25,21 @@ void VFDDisplay::init() {
 }
 
 void VFDDisplay::spiWrite(unsigned char data) {
+  noInterrupts(); // Disable interrupts during critical SPI timing
   for (int i = 0; i < 8; i++) {
     digitalWrite(_clk_pin, LOW);
+    delayMicroseconds(1); // Small delay for setup time
     if ((data & 0x01) == 0x01) {
       digitalWrite(_din_pin, HIGH);
     } else {
       digitalWrite(_din_pin, LOW);
     }
     data >>= 1;
+    delayMicroseconds(1); // Small delay before clock high
     digitalWrite(_clk_pin, HIGH);
+    delayMicroseconds(1); // Hold time
   }
+  interrupts(); // Re-enable interrupts
 }
 
 void VFDDisplay::sendCommand(unsigned char command) {
@@ -72,7 +77,7 @@ void VFDDisplay::setBrightness(unsigned char brightness) {
   digitalWrite(_cs_pin, LOW);
   spiWrite(0xe4);
   delayMicroseconds(5);
-  spiWrite(brightness); // 0-255
+  spiWrite(brightness);
   digitalWrite(_cs_pin, HIGH);
   delayMicroseconds(5);
 }
