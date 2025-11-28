@@ -53,7 +53,7 @@ void VFDDisplay::show() {
 void VFDDisplay::writeChar(unsigned char position, unsigned char character) {
   digitalWrite(_cs_pin, LOW);
   spiWrite(0x20 + position);
-  spiWrite(character + 0x30);
+  spiWrite(character);
   digitalWrite(_cs_pin, HIGH);
   show();
 }
