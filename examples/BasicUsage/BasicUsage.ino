@@ -1,9 +1,9 @@
 #include <VFDDisplay.h>
 
 // Define pins
-#define VFD_CS  9
-#define VFD_CLK 11
-#define VFD_DIN 13
+#define VFD_CS  22
+#define VFD_CLK 19
+#define VFD_DIN 18
 
 // Create VFD display object with 16 digits
 VFDDisplay vfd(VFD_CS, VFD_CLK, VFD_DIN, 16);
@@ -24,6 +24,10 @@ void setup() {
 
 void loop() {
   // Example usage
+  vfd.clear();
+  vfd.writeChar(0, 'A');
+  delay(2000);
+  
   vfd.writeString(0, "Hello World!    ");
   delay(2000);
   
